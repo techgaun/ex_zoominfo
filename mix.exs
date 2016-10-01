@@ -10,6 +10,7 @@ defmodule ExZoomInfo.Mixfile do
      package: package,
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     docs: [extras: ["README.md"]],
      deps: deps()]
   end
 
