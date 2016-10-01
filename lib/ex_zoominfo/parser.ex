@@ -10,7 +10,7 @@ defmodule ExZoomInfo.Parser do
   Parses the response
   """
   @spec parse(tuple) :: response
-  def parse(response, type \\ "json") do
+  def parse(response) do
     case response do
       {:ok, %HTTPoison.Response{body: body, headers: _, status_code: status}} when status in [200, 201] ->
         {:ok, Poison.decode!(body)}
@@ -22,7 +22,7 @@ defmodule ExZoomInfo.Parser do
         {:error, "empty response", status}
 
       {:ok, %HTTPoison.Response{body: body, headers: _, status_code: status}} ->
-        {:ok, json} = decode(body, type)
+        {:ok, json} = Poison.decode!(body)
         {:error, json, status}
 
       {:error, %HTTPoison.Error{id: _, reason: reason}} ->

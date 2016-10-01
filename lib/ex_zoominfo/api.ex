@@ -15,12 +15,16 @@ defmodule ExZoomInfo.Api do
   @accept [{"Accept", "applicationjson"}]
 
   @doc """
-  Search zoominfo
+  Search zoominfo using partner api
 
-  Todo: Add examples
+  ## Examples
+
+      alias ExZoomInfo.Api, as: ZoomInfo
+      ZoomInfo.search(%{"companyName" => "zoominfo", "state" => "Massachusetts"}, [type: "search", object: "company"])
   """
   @spec search(map, String.t) :: {:ok, binary} | {:error, binary}
-  def search(params, opts \\ []) when is_map(params) and map_size(params) > 0 do
+  def search(params, opts \\ [])
+  def search(params, opts) when is_map(params) and map_size(params) > 0 do
     object = if opts[:object] in @supported_object, do: opts[:object], else: "person"
     type = opts[:type] || "search"
     params
@@ -44,7 +48,7 @@ defmodule ExZoomInfo.Api do
 
   defp hashkey(params) when map_size(params) > 0 do
     prefix = params
-      |> Enum.reduce("", fn {k, v}, acc ->
+      |> Enum.reduce("", fn {_k, v}, acc ->
         acc <> String.slice(v, 0, 2)
       end)
     {y, m, d} = :erlang.date
