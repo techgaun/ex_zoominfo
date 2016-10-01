@@ -1,4 +1,6 @@
-# ExZoomInfo [![Build Status](https://semaphoreci.com/api/v1/samaracharya/ex_zoominfo/branches/master/badge.svg)](https://semaphoreci.com/samaracharya/ex_zoominfo)
+# ExZoomInfo
+
+[![Build Status](https://semaphoreci.com/api/v1/samaracharya/ex_zoominfo/branches/master/badge.svg)](https://semaphoreci.com/samaracharya/ex_zoominfo)
 
 
 > ZoomInfo Client for Elixir
