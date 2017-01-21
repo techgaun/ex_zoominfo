@@ -8,7 +8,7 @@ defmodule ExZoomInfo.Api do
 
   @base_url "https://partnerapi.zoominfo.com/partnerapi"
   @defaults %{OutputType: "json"}
-  @query_type ["match", "search", "detail", "query"]
+  # @query_type ["match", "search", "detail", "query"]
   @supported_object ["person", "company", "usage"]
   @user_agent [{"User-agent", "ExZoominfo"}]
   @content_type [{"Content-Type", "application/json"}]
@@ -28,10 +28,10 @@ defmodule ExZoomInfo.Api do
     object = if opts[:object] in @supported_object, do: opts[:object], else: "person"
     type = opts[:type] || "search"
     params
-    |> Map.merge(%{pc: config[:partner_code], key: hashkey(params)})
+    |> Map.merge(%{pc: config()[:partner_code], key: hashkey(params)})
     |> Map.merge(@defaults)
     |> build_url(object, type)
-    |> Api.get(request_headers)
+    |> Api.get(request_headers())
     |> Parser.parse
   end
   def search(_, _), do: {:error, "invalid request"}
@@ -53,7 +53,7 @@ defmodule ExZoomInfo.Api do
       end)
     {y, m, d} = :erlang.date
     :md5
-    |> :crypto.hash("#{prefix}#{config[:partner_password]}#{d}#{m}#{y}")
+    |> :crypto.hash("#{prefix}#{config()[:partner_password]}#{d}#{m}#{y}")
     |> Base.encode16 |> String.downcase
   end
 

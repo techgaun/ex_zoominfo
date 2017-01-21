@@ -7,7 +7,7 @@ defmodule ExZoomInfo.Mixfile do
      elixir: "~> 1.2",
      description: "Elixir SDK for ZoomInfo Partner API",
      source_url: "https://github.com/techgaun/ex_zoominfo",
-     package: package,
+     package: package(),
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      docs: [extras: ["README.md"]],
@@ -32,7 +32,7 @@ defmodule ExZoomInfo.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:httpoison, "~> 0.9.0"},
+      {:httpoison, "~> 0.11.0"},
       {:earmark, "~> 0.1", only: :dev},
       {:ex_doc, "~> 0.11", only: :dev},
       {:dogma, "~> 0.1", only: [:dev, :test]}
