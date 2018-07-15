@@ -2,16 +2,18 @@ defmodule ExZoomInfo.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :ex_zoominfo,
-     version: "0.1.0",
-     elixir: "~> 1.2",
-     description: "Elixir SDK for ZoomInfo Partner API",
-     source_url: "https://github.com/techgaun/ex_zoominfo",
-     package: package(),
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     docs: [extras: ["README.md"]],
-     deps: deps()]
+    [
+      app: :ex_zoominfo,
+      version: "0.1.0",
+      elixir: "~> 1.2",
+      description: "Elixir SDK for ZoomInfo Partner API",
+      source_url: "https://github.com/techgaun/ex_zoominfo",
+      package: package(),
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
+      docs: [extras: ["README.md"]],
+      deps: deps()
+    ]
   end
 
   # Configuration for the OTP application

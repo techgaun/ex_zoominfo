@@ -22,21 +22,24 @@ defmodule ExZoomInfo.Api do
       alias ExZoomInfo.Api, as: ZoomInfo
       ZoomInfo.search(%{"companyName" => "zoominfo", "state" => "Massachusetts"}, [type: "search", object: "company"])
   """
-  @spec search(map, String.t) :: {:ok, binary} | {:error, binary}
+  @spec search(map, String.t()) :: {:ok, binary} | {:error, binary}
   def search(params, opts \\ [])
+
   def search(params, opts) when is_map(params) and map_size(params) > 0 do
     object = if opts[:object] in @supported_object, do: opts[:object], else: "person"
     type = opts[:type] || "search"
+
     params
     |> Map.merge(%{pc: config()[:partner_code], key: hashkey(params)})
     |> Map.merge(@defaults)
     |> build_url(object, type)
     |> Api.get(request_headers())
-    |> Parser.parse
+    |> Parser.parse()
   end
+
   def search(_, _), do: {:error, "invalid request"}
 
-  @spec build_url(map, String.t, String.t) :: String.t
+  @spec build_url(map, String.t(), String.t()) :: String.t()
   def build_url(params, object, type) do
     "#{@base_url}/#{object}/#{type}?#{URI.encode_query(params)}"
   end
@@ -47,14 +50,18 @@ defmodule ExZoomInfo.Api do
   end
 
   defp hashkey(params) when map_size(params) > 0 do
-    prefix = params
+    prefix =
+      params
       |> Enum.reduce("", fn {_k, v}, acc ->
         acc <> String.slice(v, 0, 2)
       end)
-    {y, m, d} = :erlang.date
+
+    {y, m, d} = :erlang.date()
+
     :md5
     |> :crypto.hash("#{prefix}#{config()[:partner_password]}#{d}#{m}#{y}")
-    |> Base.encode16 |> String.downcase
+    |> Base.encode16()
+    |> String.downcase()
   end
 
   defp request_headers, do: @user_agent ++ @content_type ++ @accept
